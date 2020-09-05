@@ -2,7 +2,7 @@
 
 This module allows the [@deskeen/web-builder](https://github.com/deskeen/web-builder) engine to inline Markdown files.
 
-It uses the [@deskeen/markdown](https://github.com/deskeen/markdown) parser under the hood to minify the files.
+It uses the [@deskeen/markdown](https://github.com/deskeen/markdown) parser under the hood to parse the text.
 
 
 ## Install
