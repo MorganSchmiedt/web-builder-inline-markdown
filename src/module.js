@@ -55,6 +55,11 @@ module.exports = async(fileMap, opt, lib) => {
     }
   }
 
+  // Raise event
+  if (opt.onAssetsLoad != null) {
+    opt.onAssetsLoad(depMap)
+  }
+
   // Fetch dependencies content
   await Promise.all(Array.from(depMap.keys())
     .map(async name => {
@@ -69,11 +74,6 @@ module.exports = async(fileMap, opt, lib) => {
 
       depMap.set(name, content)
     }))
-
-  // Raise event
-  if (opt.onAssetsLoad != null) {
-    opt.onAssetsLoad(depMap)
-  }
 
   // Replace assets
   for (const [path, tagList] of depsPerFile.entries()) {
