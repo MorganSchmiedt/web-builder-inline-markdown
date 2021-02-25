@@ -18,8 +18,9 @@ const TAG_NAME = 'inlineMD'
 /**
  * @param {Map} fileMap List of files with their content
  * @param {object} opt Module options
- * @param {Array<String>} assets List of directories that include the images
- * @param {object} parserOptions Parser options
+ * @param {Array<String>} opt.assets List of directories that contain the assets
+ * @param {object} opt.parserOptions Parser options
+ * @param {function} opt.onAssetsLoad Event raised after the content of the assets are loaded.
  * @param {object} lib Engine library
  * @param {function} lib.log
  * @param {function} lib.findAsset
@@ -55,11 +56,6 @@ module.exports = async(fileMap, opt, lib) => {
     }
   }
 
-  // Raise event
-  if (opt.onAssetsLoad != null) {
-    opt.onAssetsLoad(depMap)
-  }
-
   // Fetch dependencies content
   await Promise.all(Array.from(depMap.keys())
     .map(async name => {
@@ -70,10 +66,22 @@ module.exports = async(fileMap, opt, lib) => {
       }
 
       const content = await readFileAsync(path, { encoding: 'utf8' })
-        .then(content => parser.parse(content, opt.parserOptions).innerHTML)
 
       depMap.set(name, content)
     }))
+
+  // Raise event
+  if (opt.onAssetsLoad != null) {
+    opt.onAssetsLoad(depMap)
+  }
+
+  // Convert Markdown to HTML
+  for (const [path, contentMD] of depMap.entries()) {
+    const contentNode = parser.parse(contentMD, opt.parserOptions)
+    const contentHtml = contentNode.innerHTML
+
+    depMap.set(path, contentHtml)
+  }
 
   // Replace assets
   for (const [path, tagList] of depsPerFile.entries()) {
