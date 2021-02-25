@@ -19,8 +19,8 @@ const TAG_NAME = 'inlineMD'
  * @param {Map} fileMap List of files with their content
  * @param {object} opt Module options
  * @param {Array<String>} opt.assets List of directories that contain the assets
- * @param {object} opt.parserOptions Parser options
- * @param {function} opt.onAssetsLoad Event raised after the content of the assets are loaded.
+ * @param {object} [opt.parserOptions] Parser options
+ * @param {function} [opt.onAssetsLoad] Event raised when the content of the assets are loaded.
  * @param {object} lib Engine library
  * @param {function} lib.log
  * @param {function} lib.findAsset
