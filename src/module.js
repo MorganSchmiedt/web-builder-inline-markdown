@@ -70,6 +70,11 @@ module.exports = async(fileMap, opt, lib) => {
       depMap.set(name, content)
     }))
 
+  // Raise event
+  if (opt.onAssetsLoad != null) {
+    opt.onAssetsLoad(depMap)
+  }
+
   // Replace assets
   for (const [path, tagList] of depsPerFile.entries()) {
     if (tagList.length > 0) {

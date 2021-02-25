@@ -32,6 +32,10 @@ const builder.build([
           // List of directories that include
           // the markdown files included in the tags
         ],
+        onAssetsLoad: assetsMap => {
+          // Optional event that allows to edit the content
+          // of the assets before passing it to the parser.
+        },
         parserOptions: {
           // See https://github.com/deskeen/markdown
           // for a complete list of options
